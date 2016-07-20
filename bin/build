@@ -1,0 +1,5 @@
+cd $WORKSPACE_DIR
+# Vendor all libraries
+run-in-nvm particle library install --vendor
+# Copy workspace to output directory
+cp -r $WORKSPACE_DIR/. $OUTPUT_DIR
