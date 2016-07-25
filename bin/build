@@ -1,5 +1,13 @@
 cd $WORKSPACE_DIR
+
+# Authenticate user
+if [ -z $ACCESS_TOKEN ]; then
+  echo "You need to provide ACCESS_TOKEN to install dependencies"
+  exit -1
+fi
+mkdir ~/.particle
+echo "{\"access_token\": \"${ACCESS_TOKEN}\"}" > ~/.particle/particle.config.json
 # Vendor all libraries
-run-in-nvm particle library install --vendor
+run-in-nvm particle library install --vendored -y
 # Copy workspace to output directory
 cp -r $WORKSPACE_DIR/. $OUTPUT_DIR
