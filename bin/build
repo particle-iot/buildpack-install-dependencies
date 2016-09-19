@@ -6,8 +6,8 @@ if [ -z $ACCESS_TOKEN ]; then
   exit -1
 fi
 mkdir ~/.particle
-echo "{\"access_token\": \"${ACCESS_TOKEN}\"}" > ~/.particle/particle.config.json
+echo "{\"access_token\": \"${ACCESS_TOKEN}\", \"disableUpdateCheck\": true}" > ~/.particle/particle.config.json
 # Vendor all libraries
-run-in-nvm particle library install --vendored -y
+particle library install --vendored -y
 # Copy workspace to output directory
 cp -r $WORKSPACE_DIR/. $OUTPUT_DIR
