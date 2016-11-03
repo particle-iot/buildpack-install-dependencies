@@ -7,7 +7,17 @@ if [ -z $ACCESS_TOKEN ]; then
 fi
 mkdir ~/.particle
 echo "{\"access_token\": \"${ACCESS_TOKEN}\", \"disableUpdateCheck\": true}" > ~/.particle/particle.config.json
+
+# Make into an extended project if src doesn't exist
+if [ -f project.properties ] && [ ! -d src ]; then
+  mkdir src
+  mv *.ino *.cpp *.h src
+fi
+
 # Vendor all libraries
-particle library install --vendored -y
+if [ -f project.properties ]; then
+  particle library install --vendored -y
+fi
+
 # Copy workspace to output directory
 cp -r $WORKSPACE_DIR/. $OUTPUT_DIR
