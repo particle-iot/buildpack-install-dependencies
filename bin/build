@@ -1,3 +1,8 @@
+#!/bin/bash
+
+# Turn on extended glob
+shopt -s extglob
+
 cd $WORKSPACE_DIR
 
 # Authenticate user
@@ -11,7 +16,7 @@ echo "{\"access_token\": \"${ACCESS_TOKEN}\", \"disableUpdateCheck\": true}" > ~
 # Make into an extended project if src doesn't exist
 if [ -f project.properties ] && [ ! -d src ]; then
   mkdir src
-  mv *.ino *.cpp *.h src
+  mv !(project.properties|src) src
 fi
 
 # Vendor all libraries
