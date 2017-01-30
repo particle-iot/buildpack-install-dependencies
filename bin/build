@@ -10,8 +10,12 @@ if [ -z $ACCESS_TOKEN ]; then
   echo "You need to provide ACCESS_TOKEN to install dependencies"
   exit -1
 fi
+# Set default API endpoint
+if [ -z $API_URL ]; then
+  API_URL="https://api.particle.io"
+fi
 mkdir ~/.particle
-echo "{\"access_token\": \"${ACCESS_TOKEN}\", \"disableUpdateCheck\": true}" > ~/.particle/particle.config.json
+echo "{\"access_token\": \"${ACCESS_TOKEN}\", \"disableUpdateCheck\": true, \"apiUrl\": \"${API_URL}\"}" > ~/.particle/particle.config.json
 
 # Make into an extended project if src doesn't exist
 if [ -f project.properties ] && [ ! -d src ]; then
