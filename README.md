@@ -19,9 +19,11 @@ $ docker build -t particle/buildpack-$BUILDPACK_IMAGE .
 Provided you have a project with dependencies in `~/tmp/input` directory running following command will install those and save both project and dependencies in `~/tmp/output`:
 
 ```bash
+$ export ACCESS_TOKEN=<VALID_TOKEN>
 $ docker run --rm \
   -v ~/tmp/input:/input \
   -v ~/tmp/output:/output \
+  -e ACCESS_TOKEN=$ACCESS_TOKEN \
   particle/buildpack-install-dependencies
 ```
 
@@ -31,6 +33,7 @@ To run tests use:
 
 ```bash
 $ docker run --rm \
+  -e ACCESS_TOKEN=$ACCESS_TOKEN \
   particle/buildpack-install-dependencies \
   /bin/run-tests
 ```

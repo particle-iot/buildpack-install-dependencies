@@ -1,5 +1,9 @@
 #!/usr/bin/env bats
 
+teardown() {
+  rm -rf ~/.particle
+}
+
 @test "Install neopixel library" {
   # Copy test data to input
   cp -r /test/extended/* /input
