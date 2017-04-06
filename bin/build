@@ -25,7 +25,7 @@ fi
 
 # Vendor all libraries
 if [ -f project.properties ]; then
-  particle library install --vendored -y
+  particle --no-update-check library install --vendored -y 
 fi
 
 # Copy workspace to output directory
