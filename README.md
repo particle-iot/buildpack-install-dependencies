@@ -8,10 +8,7 @@ This buildpack runs `particle library install --vendor` command inside of user s
 ## Building image
 
 ```bash
-$ export BUILDPACK_IMAGE=install-dependencies
-$ git clone "git@github.com:spark/buildpack-${BUILDPACK_IMAGE}.git"
-$ cd buildpack-$BUILDPACK_IMAGE
-$ docker build -t particle/buildpack-$BUILDPACK_IMAGE .
+$ docker-compose build
 ```
 
 ## Running
