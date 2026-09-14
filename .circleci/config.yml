@@ -1,0 +1,66 @@
+version: 2.1
+
+orbs:
+  particle-artifact: particle/particle-artifact@2
+  docker: circleci/docker@2.0.5
+
+tag_filters: &tag_filters
+  filters:
+    tags:
+      only:
+        - /.+/
+
+jobs:
+  test:
+    executor:
+      name: docker/docker
+      image: cimg/base
+      tag: stable
+    resource_class: small
+    steps:
+      - setup_remote_docker:
+          version: 20.10.24
+      - docker/check:
+          docker-username: DOCKERHUB_USERNAME
+          docker-password: DOCKERHUB_PASSWORD
+      - run:
+          name: Run buildpack test suite
+          command: |
+            set -euo pipefail
+
+            # The bats suite drives `particle library install` against the live
+            # API, so it needs a real Particle access token. Fail loudly here
+            # instead of letting the suite fail with "You're not logged in".
+            if [ -z "${ACCESS_TOKEN:-}" ]; then
+              echo "ACCESS_TOKEN is not set. Add it to the particle-ci-private context or the project's environment variables." >&2
+              exit 1
+            fi
+
+            IMAGE="particle/buildpack-install-dependencies:workflow-${CIRCLE_WORKFLOW_ID}"
+            docker pull "$IMAGE"
+            docker run --rm -e ACCESS_TOKEN "$IMAGE" /bin/run-tests
+
+workflows:
+  build-test:
+    jobs:
+      - particle-artifact/docker-build:
+          name: build
+          dockerhub-repository: buildpack-install-dependencies
+          git-submodule-checkout: false
+          context:
+            - particle-ci-private
+          <<: *tag_filters
+      - test:
+          requires:
+            - build
+          context:
+            - particle-ci-private
+          <<: *tag_filters
+      - particle-artifact/docker-publish:
+          name: publish
+          dockerhub-repository: buildpack-install-dependencies
+          requires:
+            - test
+          context:
+            - particle-ci-private
+          <<: *tag_filters
