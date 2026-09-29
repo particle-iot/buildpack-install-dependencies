@@ -31,6 +31,7 @@ jobs:
             # The bats suite drives `particle library install` against the live
             # API, so it needs a real Particle access token. Fail loudly here
             # instead of letting the suite fail with "You're not logged in".
+            export ACCESS_TOKEN="${PARTICLE_API_TOKEN:-}"
             if [ -z "${ACCESS_TOKEN:-}" ]; then
               echo "ACCESS_TOKEN is not set. Add it to the particle-ci-private context or the project's environment variables." >&2
               exit 1
