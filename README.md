@@ -1,8 +1,5 @@
 # Buildpack installing library dependencies
 
-[![Build Status](https://travis-ci.org/spark/buildpack-install-dependencies.svg?branch=master)](https://travis-ci.org/spark/buildpack-install-dependencies) [![](https://imagelayers.io/badge/particle/buildpack-install-dependencies:latest.svg)](https://imagelayers.io/?images=particle/buildpack-install-dependencies:latest 'Get your own badge on imagelayers.io')
-
-
 This buildpack runs `particle library install --vendor` command inside of user sources which installs all dependencies inside of the project.
 
 ## Building image

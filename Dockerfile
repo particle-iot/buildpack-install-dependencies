@@ -1,10 +1,14 @@
-FROM particle/buildpack-base-node:0.1.1-node_v6.2.1
+FROM particle/buildpack-base:0.5.0
+
+ENV PARTICLE_DISABLE_UPDATE=true
 
 # Install Particle CLI inside of the container
-RUN npm config set user 0 \
-    && npm config set unsafe-perm true \
-    && npm install -g particle-cli@1.21.0 \
-    && ln -s /root/.nvm/current/bin/particle /usr/local/bin
+RUN apt update && \
+    apt install -y python3 && \
+    curl -sL https://particle.io/install-cli | bash && \
+    ln -s /root/bin/particle /usr/local/bin/particle && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY bin /bin
 COPY test /test
